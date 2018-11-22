@@ -265,10 +265,7 @@ Bubble.defaultProps = {
   bottomContainerStyle: {},
   tickStyle: {},
   containerToNextStyle: {},
-  containerToPreviousStyle: {},
-  // TODO: remove in next major release
-  isSameDay: warnDeprecated(isSameDay),
-  isSameUser: warnDeprecated(isSameUser),
+  containerToPreviousStyle: {}
 };
 
 Bubble.propTypes = {
