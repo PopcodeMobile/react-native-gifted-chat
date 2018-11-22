@@ -17,7 +17,7 @@ import MessageVideo from './MessageVideo';
 import Time from './Time';
 import Color from './Color';
 
-import { isSameUser, isSameDay, warnDeprecated } from './utils';
+import { isSameUser, isSameDay } from './utils';
 
 export default class Bubble extends React.Component {
 
