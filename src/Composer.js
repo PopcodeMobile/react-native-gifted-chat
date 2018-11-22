@@ -11,7 +11,6 @@ export default class Composer extends React.Component {
 
   onContentSizeChange(e) {
     const { contentSize } = e.nativeEvent;
-
     // Support earlier versions of React Native on Android.
     if (!contentSize) return;
 
@@ -32,9 +31,6 @@ export default class Composer extends React.Component {
   render() {
     return (
       <TextInput
-        testID={this.props.placeholder}
-        accessible
-        accessibilityLabel={this.props.placeholder}
         placeholder={this.props.placeholder}
         placeholderTextColor={this.props.placeholderTextColor}
         multiline={this.props.multiline}
@@ -44,6 +40,7 @@ export default class Composer extends React.Component {
         style={[styles.textInput, this.props.textInputStyle, { height: this.props.composerHeight }]}
         autoFocus={this.props.textInputAutoFocus}
         value={this.props.text}
+        accessibilityLabel={this.props.text || this.props.placeholder}
         enablesReturnKeyAutomatically
         underlineColorAndroid="transparent"
         keyboardAppearance={this.props.keyboardAppearance}

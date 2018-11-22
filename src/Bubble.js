@@ -2,16 +2,24 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Text, Clipboard, StyleSheet, TouchableWithoutFeedback, View, ViewPropTypes } from 'react-native';
+import {
+  Text,
+  Clipboard,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  View,
+  ViewPropTypes,
+} from 'react-native';
 
 import MessageText from './MessageText';
 import MessageImage from './MessageImage';
+import MessageVideo from './MessageVideo';
 import Time from './Time';
 import Color from './Color';
 
-import { isSameUser, isSameDay } from './utils';
+import { isSameUser, isSameDay, warnDeprecated } from './utils';
 
-export default class Bubble extends React.PureComponent {
+export default class Bubble extends React.Component {
 
   constructor(props) {
     super(props);
@@ -90,6 +98,17 @@ export default class Bubble extends React.PureComponent {
     return null;
   }
 
+  renderMessageVideo() {
+    if (this.props.currentMessage.video) {
+      const { containerStyle, wrapperStyle, ...messageVideoProps } = this.props;
+      if (this.props.renderMessageVideo) {
+        return this.props.renderMessageVideo(messageVideoProps);
+      }
+      return <MessageVideo {...messageVideoProps} />;
+    }
+    return null;
+  }
+
   renderTicks() {
     const { currentMessage } = this.props;
     if (this.props.renderTicks) {
@@ -129,7 +148,12 @@ export default class Bubble extends React.PureComponent {
 
   render() {
     return (
-      <View style={[styles[this.props.position].container, this.props.containerStyle[this.props.position]]}>
+      <View
+        style={[
+          styles[this.props.position].container,
+          this.props.containerStyle[this.props.position],
+        ]}
+      >
         <View
           style={[
             styles[this.props.position].wrapper,
@@ -146,6 +170,7 @@ export default class Bubble extends React.PureComponent {
             <View>
               {this.renderCustomView()}
               {this.renderMessageImage()}
+              {this.renderMessageVideo()}
               {this.renderMessageText()}
               <View style={[styles.bottom, this.props.bottomContainerStyle[this.props.position]]}>
                 {this.renderTime()}
@@ -222,6 +247,7 @@ Bubble.defaultProps = {
   touchableProps: {},
   onLongPress: null,
   renderMessageImage: null,
+  renderMessageVideo: null,
   renderMessageText: null,
   renderCustomView: null,
   renderTicks: null,
@@ -240,6 +266,9 @@ Bubble.defaultProps = {
   tickStyle: {},
   containerToNextStyle: {},
   containerToPreviousStyle: {},
+  // TODO: remove in next major release
+  isSameDay: warnDeprecated(isSameDay),
+  isSameUser: warnDeprecated(isSameUser),
 };
 
 Bubble.propTypes = {
@@ -247,6 +276,7 @@ Bubble.propTypes = {
   touchableProps: PropTypes.object,
   onLongPress: PropTypes.func,
   renderMessageImage: PropTypes.func,
+  renderMessageVideo: PropTypes.func,
   renderMessageText: PropTypes.func,
   renderCustomView: PropTypes.func,
   renderTime: PropTypes.func,
@@ -276,4 +306,7 @@ Bubble.propTypes = {
     left: ViewPropTypes.style,
     right: ViewPropTypes.style,
   }),
+  // TODO: remove in next major release
+  isSameDay: PropTypes.func,
+  isSameUser: PropTypes.func,
 };
