@@ -17,9 +17,13 @@ import MessageVideo from './MessageVideo';
 import Time from './Time';
 import Color from './Color';
 
-import { isSameUser, isSameDay } from './utils';
+import { isSameUser, isSameDay, warnDeprecated } from './utils';
 
 export default class Bubble extends React.Component {
+
+  state = {
+    paused: true
+  }
 
   constructor(props) {
     super(props);
@@ -101,10 +105,15 @@ export default class Bubble extends React.Component {
   renderMessageVideo() {
     if (this.props.currentMessage.video) {
       const { containerStyle, wrapperStyle, ...messageVideoProps } = this.props;
+      const { paused } = this.state
       if (this.props.renderMessageVideo) {
         return this.props.renderMessageVideo(messageVideoProps);
       }
-      return <MessageVideo {...messageVideoProps} />;
+      return <MessageVideo {...messageVideoProps} lightboxProps={{
+        onOpen: () => this.setState({ paused: false }),
+        onClose: () => this.setState({ paused: true }),
+        paused
+      }}/>;
     }
     return null;
   }

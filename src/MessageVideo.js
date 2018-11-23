@@ -9,7 +9,7 @@ export default function MessageVideo({
   videoProps,
   videoStyle,
   currentMessage,
-  lightboxProps
+  lightboxProps,
 }) {
   return (
     <View style={[styles.container, containerStyle]}>
@@ -17,14 +17,15 @@ export default function MessageVideo({
         activeProps={{
           style: styles.active
         }}
-        {...lightboxProps}
-        {...videoProps}
+        onClose={lightboxProps.onClose}
+        onOpen={lightboxProps.onOpen}
       >
         <Video
           {...videoProps}
           ref={r => {
             this.player = r;
           }}
+          paused={lightboxProps.paused}
           source={{ uri: currentMessage.video }}
           style={videoStyle}
           resizeMode="cover"
@@ -55,7 +56,6 @@ MessageVideo.defaultProps = {
     height: 100,
     borderRadius: 13,
     margin: 3,
-    resizeMode: "cover"
   },
   videoProps: {}
 };
