@@ -20,11 +20,6 @@ import Color from './Color';
 import { isSameUser, isSameDay, warnDeprecated } from './utils';
 
 export default class Bubble extends React.Component {
-
-  state = {
-    paused: true
-  }
-
   constructor(props) {
     super(props);
     this.onLongPress = this.onLongPress.bind(this);
@@ -105,15 +100,10 @@ export default class Bubble extends React.Component {
   renderMessageVideo() {
     if (this.props.currentMessage.video) {
       const { containerStyle, wrapperStyle, ...messageVideoProps } = this.props;
-      const { paused } = this.state
       if (this.props.renderMessageVideo) {
         return this.props.renderMessageVideo(messageVideoProps);
       }
-      return <MessageVideo {...messageVideoProps} lightboxProps={{
-        onOpen: () => this.setState({ paused: false }),
-        onClose: () => this.setState({ paused: true }),
-        paused
-      }}/>;
+      return <MessageVideo {...messageVideoProps} />;
     }
     return null;
   }
@@ -160,7 +150,7 @@ export default class Bubble extends React.Component {
       <View
         style={[
           styles[this.props.position].container,
-          this.props.containerStyle[this.props.position],
+          this.props.containerStyle[this.props.position]
         ]}
       >
         <View
@@ -168,7 +158,7 @@ export default class Bubble extends React.Component {
             styles[this.props.position].wrapper,
             this.props.wrapperStyle[this.props.position],
             this.handleBubbleToNext(),
-            this.handleBubbleToPrevious(),
+            this.handleBubbleToPrevious()
           ]}
         >
           <TouchableWithoutFeedback
