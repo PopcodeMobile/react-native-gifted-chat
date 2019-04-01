@@ -312,6 +312,17 @@ interface MessageContainerProps {
 
 export class MessageContainer extends React.Component<MessageContainerProps> { }
 
+interface MessageVideoProps {
+  currentMessage?: IMessage;
+  containerStyle?: ViewStyle;
+  videoStyle?: ImageStyle;
+  videoProps?: object;
+  playImageOverlay?: string;
+  imageOverlayStyle?: ImageStyle;
+}
+
+export class MessageVideo extends React.Component<MessageVideoProps> { }
+
 interface MessageImageProps {
   currentMessage?: IMessage;
   containerStyle?: ViewStyle;
